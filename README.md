@@ -1,0 +1,2 @@
+# ImageSlimming
+用Kotlin撸一个图片压缩插件，支持AndroidStudio,IDEA,WebStorm以及其他Jetbrains全家桶IDE
