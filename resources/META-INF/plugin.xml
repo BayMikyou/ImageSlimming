@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.shanbay.plugins.image.slimming</id>
     <name>ImageSlimming</name>
-    <version>1.0</version>
+    <version>1.1</version>
     <vendor email="android@shanbay.com" url="http://www.shanbay.com">扇贝网</vendor>
 
     <description><![CDATA[
@@ -20,6 +20,8 @@
 
             <li>Support single picture and selected multiple images compress</li>
 
+            <li>Support append output file prefix name</li>
+
             <li>Support AndroidStudio, Intellij IDEA, WebStorm, PyCharm, etc</li>
         </ul>
       </html>
@@ -32,6 +34,9 @@
   <ul>
     <li>Initial release</li>
   </ul>
+  <ul>
+    <li>add support append output file prefix name</li>
+  </ul>
 </html>
       ]]></change-notes>
     <idea-version since-build="145.0"/>
@@ -40,14 +45,19 @@
     </extensions>
 
     <actions>
-        <group id="com.shanbay.plugins.image.slimming" text="ImageSlimming" description="compress picture plugin">
-            <add-to-group group-id="MainMenu" anchor="last"/>
-            <action class="com.mikyou.plugins.image.slimming.action.ImageSlimmingAction" text="ImageSlimming"
-                    id="com.mikyou.plugins.image.slimming.action.ImageSlimmingAction"
-                    description="compress picture plugin" icon="/img/icon_image_slimming.png">
-                <add-to-group group-id="MainToolBar" anchor="after" relative-to-action="Android.MainToolBarSdkGroup"/>
-            </action>
-        </group>
+        <!--<group id="com.shanbay.plugins.image.slimming" text="ImageSlimming" description="compress picture plugin">-->
+        <!--<add-to-group group-id="MainMenu" anchor="last"/>-->
+        <!--<action class="com.mikyou.plugins.image.slimming.action.ImageSlimmingAction" text="ImageSlimming"-->
+        <!--id="com.mikyou.plugins.image.slimming.action.ImageSlimmingAction"-->
+        <!--description="compress picture plugin" icon="/img/icon_image_slimming.png">-->
+        <!--<add-to-group group-id="MainToolBar" anchor="after" relative-to-action="Android.MainToolBarSdkGroup"/>-->
+        <!--</action>-->
+        <!--</group>-->
+        <action class="com.mikyou.plugins.image.slimming.action.ImageSlimmingAction" text="ImageSlimming"
+                id="com.mikyou.plugins.image.slimming.action.ImageSlimmingAction"
+                description="compress picture plugin" icon="/img/icon_image_slimming.png">
+            <add-to-group group-id="MainToolBar" anchor="after" relative-to-action="Android.MainToolBarSdkGroup"/>
+        </action>
     </actions>
 
 </idea-plugin>

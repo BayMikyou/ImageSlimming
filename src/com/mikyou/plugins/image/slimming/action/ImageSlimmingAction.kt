@@ -67,9 +67,10 @@ class ImageSlimmingAction : AnAction() {
     }).showDialog(width = 530, height = 150, isInCenter = true, isResizable = false)
 
     //弹出压缩目录选择 dialog
-    private fun popupCompressDialog(e: AnActionEvent?) = ImageSlimmingDialog(readUsedDirs(), object : ImageSlimmingDialog.DialogCallback {
+    private fun popupCompressDialog(e: AnActionEvent?) = ImageSlimmingDialog(readUsedDirs(), readUsedFilePrefix(), object : ImageSlimmingDialog.DialogCallback {
         override fun onOkClicked(imageSlimmingModel: ImageSlimmingModel) {
             saveUsedDirs(imageSlimmingModel)
+            saveUsedFilePrefix(imageSlimmingModel.filePrefix)
             val inputFiles: List<File> = readInputDirFiles(imageSlimmingModel.inputDir)
             val startTime = System.currentTimeMillis()
             getEventProject(e)?.asyncTask(hintText = "正在压缩", runAction = {
@@ -85,7 +86,7 @@ class ImageSlimmingAction : AnAction() {
 
         }
 
-    }).showDialog(width = 530, height = 180, isInCenter = true, isResizable = false)
+    }).showDialog(width = 530, height = 200, isInCenter = true, isResizable = false)
 
     //读取本地缓存了用户使用过的输入，输出目录的文件
     private fun readUsedDirs(): Pair<List<String>, List<String>> {
@@ -105,7 +106,23 @@ class ImageSlimmingAction : AnAction() {
         return inputDirStrs to outputDirStrs
     }
 
-    //写入用户当前使用的输入和输出路径到缓存文件中
+    //读取本地缓存了用户使用过的文件前缀
+    private fun readUsedFilePrefix(): List<String> = with(File(FILE_PATH_PREFIX)) {
+        return if (exists()) {
+            readLines(Charset.defaultCharset())
+        } else {
+            listOf()
+        }
+    }
+
+    //写入用户当前使用的文件前缀到缓存文件中
+    private fun saveUsedFilePrefix(filePrefix: String) = File(FILE_PATH_PREFIX).createFile {
+        if (!it.readLines(Charset.defaultCharset()).contains(filePrefix)) {
+            it.appendText("$filePrefix\n", Charset.defaultCharset())
+        }
+    }
+
+    //写入用户当前使用的输入、输出路径到缓存文件中
     private fun saveUsedDirs(imageSlimmingModel: ImageSlimmingModel) {
 
         File(FILE_PATH_INPUT_DIRS).createFile {
@@ -123,7 +140,11 @@ class ImageSlimmingAction : AnAction() {
 
     //执行图片压缩操作
     private fun executeCompressPic(inputFiles: List<File>, imageSlimmingModel: ImageSlimmingModel) = inputFiles.forEach {
-        Tinify.fromFile(it.absolutePath).toFile("${imageSlimmingModel.outputDir}/${it.name}")
+        if (imageSlimmingModel.filePrefix.isBlank()) {
+            Tinify.fromFile(it.absolutePath).toFile("${imageSlimmingModel.outputDir}/${it.name}")
+        } else {
+            Tinify.fromFile(it.absolutePath).toFile("${imageSlimmingModel.outputDir}/${imageSlimmingModel.filePrefix}_${it.name}")
+        }
     }
 
     //读取用户输入目录下的所有图片文件
@@ -182,8 +203,9 @@ class ImageSlimmingAction : AnAction() {
     }
 
     companion object {
-        private var FILE_PATH_API_KEY = "${PathManager.getPreInstalledPluginsPath()}/FastCompress/apiKey.csv"
-        private var FILE_PATH_INPUT_DIRS = "${PathManager.getPreInstalledPluginsPath()}/FastCompress/inputDirs.csv"
-        private var FILE_PATH_OUTPUT_DIRS = "${PathManager.getPreInstalledPluginsPath()}/FastCompress/outputDirs.csv"
+        private var FILE_PATH_API_KEY = "${PathManager.getPreInstalledPluginsPath()}/ImageSlimming/apiKey.csv"
+        private var FILE_PATH_INPUT_DIRS = "${PathManager.getPreInstalledPluginsPath()}/ImageSlimming/inputDirs.csv"
+        private var FILE_PATH_OUTPUT_DIRS = "${PathManager.getPreInstalledPluginsPath()}/ImageSlimming/outputDirs.csv"
+        private var FILE_PATH_PREFIX = "${PathManager.getPreInstalledPluginsPath()}/ImageSlimming/prefix.csv"
     }
 }

@@ -1,7 +1,7 @@
 package com.mikyou.plugins.image.slimming.ui;
 
-import com.mikyou.plugins.image.slimming.ui.model.ImageSlimmingModel;
 import com.mikyou.plugins.image.slimming.extension.ExtGUIDialogKt;
+import com.mikyou.plugins.image.slimming.ui.model.ImageSlimmingModel;
 import kotlin.Pair;
 
 import javax.swing.*;
@@ -19,14 +19,35 @@ public class ImageSlimmingDialog extends JDialog {
     private JButton mBtnInputDir;
     private JComboBox<String> mCBoxOutputPath;
     private JButton mBtnOutputDir;
+    private JCheckBox mCbShowPrefix;
+    private JLabel mLabelPrefix;
+    private JComboBox<String> mCBoxPrefix;
 
 
-    public ImageSlimmingDialog(Pair<List<String>, List<String>> usedDirs, DialogCallback callback) {
+    public ImageSlimmingDialog(Pair<List<String>, List<String>> usedDirs, List<String> filePrefixList, DialogCallback callback) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+        mLabelPrefix.setVisible(false);
+        mCBoxPrefix.setVisible(false);
+        mCBoxPrefix.setEditable(true);
+
         mCBoxInputPath.setEditable(true);
         mCBoxOutputPath.setEditable(true);
+
+        mCbShowPrefix.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (mCbShowPrefix.isSelected()) {
+                    mLabelPrefix.setVisible(true);
+                    mCBoxPrefix.setVisible(true);
+                } else {
+                    mLabelPrefix.setVisible(false);
+                    mCBoxPrefix.setVisible(false);
+                }
+            }
+        });
+
         //render cbox
         for (String inputDir : usedDirs.getFirst()) {
             mCBoxInputPath.addItem(inputDir.trim());
@@ -34,6 +55,12 @@ public class ImageSlimmingDialog extends JDialog {
 
         for (String outputDir : usedDirs.getSecond()) {
             mCBoxOutputPath.addItem(outputDir.trim());
+        }
+
+        for (String filePrefix : filePrefixList) {
+            if (mCBoxPrefix != null) {
+                mCBoxPrefix.addItem(filePrefix.trim());
+            }
         }
 
         //选择输入文件
@@ -125,8 +152,13 @@ public class ImageSlimmingDialog extends JDialog {
     }
 
     private void onOK(DialogCallback callback) {
+        String filePrefix = "";
+        if (mCBoxPrefix.getSelectedItem() != null) {
+            filePrefix = mCBoxPrefix.getSelectedItem().toString();
+        }
+
         if (callback != null && mCBoxInputPath.getSelectedItem() != null && mCBoxOutputPath.getSelectedItem() != null) {
-            callback.onOkClicked(new ImageSlimmingModel(mCBoxInputPath.getSelectedItem().toString(), mCBoxOutputPath.getSelectedItem().toString()));
+            callback.onOkClicked(new ImageSlimmingModel(mCBoxInputPath.getSelectedItem().toString(), mCBoxOutputPath.getSelectedItem().toString(), filePrefix));
         }
         dispose();
     }
@@ -146,7 +178,7 @@ public class ImageSlimmingDialog extends JDialog {
     }
 
     public static void main(String[] args) {
-        ImageSlimmingDialog dialog = new ImageSlimmingDialog(new Pair<>(new ArrayList<>(), new ArrayList<>()), new DialogCallback() {
+        ImageSlimmingDialog dialog = new ImageSlimmingDialog(new Pair<>(new ArrayList<>(), new ArrayList<>()), new ArrayList<>(), new DialogCallback() {
             @Override
             public void onOkClicked(ImageSlimmingModel compressModel) {
                 System.out.println(compressModel.toString());
@@ -157,6 +189,6 @@ public class ImageSlimmingDialog extends JDialog {
 
             }
         });
-        ExtGUIDialogKt.showDialog(dialog, 530, 170, true, false);
+        ExtGUIDialogKt.showDialog(dialog, 530, 200, true, false);
     }
 }
