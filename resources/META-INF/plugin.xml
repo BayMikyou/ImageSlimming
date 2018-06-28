@@ -1,0 +1,53 @@
+<idea-plugin>
+    <id>com.shanbay.plugins.image.slimming</id>
+    <name>ImageSlimming</name>
+    <version>1.0</version>
+    <vendor email="android@shanbay.com" url="http://www.shanbay.com">扇贝网</vendor>
+
+    <description><![CDATA[
+      <html>
+        <p>Plugin for Image Compress, Support png and jpg, Develop by Kotlin and Using TinyApi lib. </p>
+        <p>The Open Source Code Repository Url: <a href="https://github.com/BayMikyou/ImageSlimming">https://github.com/BayMikyou/ImageSlimming</a></p>
+
+        <ul>
+            <li>Support compress multiple images simultaneously</li>
+
+            <li>Support png and jpg</li>
+
+            <li>Support have used inputDir and outputDir cache</li>
+
+            <li>Support whole directory pictures compress</li>
+
+            <li>Support single picture and selected multiple images compress</li>
+
+            <li>Support AndroidStudio, Intellij IDEA, WebStorm, PyCharm, etc</li>
+        </ul>
+      </html>
+      ]]>
+    </description>
+
+    <change-notes><![CDATA[
+  <html>
+  <b>1.0</b> (6/28/2018)
+  <ul>
+    <li>Initial release</li>
+  </ul>
+</html>
+      ]]></change-notes>
+    <idea-version since-build="145.0"/>
+    <depends>com.intellij.modules.lang</depends>
+    <extensions defaultExtensionNs="com.intellij">
+    </extensions>
+
+    <actions>
+        <group id="com.shanbay.plugins.image.slimming" text="ImageSlimming" description="compress picture plugin">
+            <add-to-group group-id="MainMenu" anchor="last"/>
+            <action class="com.mikyou.plugins.image.slimming.action.ImageSlimmingAction" text="ImageSlimming"
+                    id="com.mikyou.plugins.image.slimming.action.ImageSlimmingAction"
+                    description="compress picture plugin" icon="/img/icon_image_slimming.png">
+                <add-to-group group-id="MainToolBar" anchor="after" relative-to-action="Android.MainToolBarSdkGroup"/>
+            </action>
+        </group>
+    </actions>
+
+</idea-plugin>
