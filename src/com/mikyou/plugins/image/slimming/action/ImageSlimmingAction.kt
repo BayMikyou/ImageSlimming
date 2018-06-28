@@ -76,7 +76,7 @@ class ImageSlimmingAction : AnAction() {
             getEventProject(e)?.asyncTask(hintText = "正在压缩", runAction = {
                 executeCompressPic(inputFiles, imageSlimmingModel)
             }, successAction = {
-                Messages.showWarningDialog("压缩完成, 已压缩: ${inputFiles.size}张图片, 压缩总时长共计: ${(System.currentTimeMillis() - startTime) / 1000}s", "来自FastCompress提示")
+                Messages.showWarningDialog("压缩完成, 已压缩: ${inputFiles.size}张图片, 压缩总时长共计: ${(System.currentTimeMillis() - startTime) / 1000}s", "来自ImageSlimming提示")
             }, failAction = {
                 println(it.message)
             })
