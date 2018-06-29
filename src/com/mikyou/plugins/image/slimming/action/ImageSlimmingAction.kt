@@ -19,10 +19,11 @@ import java.nio.charset.Charset
 class ImageSlimmingAction : AnAction() {
     //插件入口函数
     override fun actionPerformed(event: AnActionEvent?) = with(File(FILE_PATH_API_KEY)) {
-        if (!exists()) {//保存API_KEY的文件不存在，提示用户输入
+        if (!exists() || readText(Charset.defaultCharset()).isBlank()) {//保存API_KEY的文件不存在, 或者读取的文件内容为空，提示用户输入(一般为第一次)
             popupInputKeyDialog(labelTitle = "请输入TinyPng Key, 请往TinyPng官网申请", event = event)
-        } else {//文件存在，读取相应的KEY，检查有效性
-            checkKeyValid(event, readText(Charset.defaultCharset()))
+        } else {//为了减少不必要API KEY检查次数，此处改为只要文件存在，直接读取文件中的API_KEY
+            Tinify.setKey(readText(Charset.defaultCharset()))//(注意:此时API_KEY有可能不合法，此处先不做检验，而是去捕获认证异常，提示用户重新键入API_KEY)
+            popupCompressDialog(event)
         }
     }
 
@@ -43,7 +44,7 @@ class ImageSlimmingAction : AnAction() {
             updateExpireKey(apiKey)
             popupCompressDialog(event)
         }, failAction = {
-            println("验证Key失败!!${it.printStackTrace()}")
+            println("验证Key失败!!${it.message}")
             popupInputKeyDialog(labelTitle = "TinyPng key验证失败，请重新输入", event = event)
         })
     }
@@ -67,18 +68,21 @@ class ImageSlimmingAction : AnAction() {
     }).showDialog(width = 530, height = 150, isInCenter = true, isResizable = false)
 
     //弹出压缩目录选择 dialog
-    private fun popupCompressDialog(e: AnActionEvent?) = ImageSlimmingDialog(readUsedDirs(), readUsedFilePrefix(), object : ImageSlimmingDialog.DialogCallback {
+    private fun popupCompressDialog(event: AnActionEvent?) = ImageSlimmingDialog(readUsedDirs(), readUsedFilePrefix(), object : ImageSlimmingDialog.DialogCallback {
         override fun onOkClicked(imageSlimmingModel: ImageSlimmingModel) {
             saveUsedDirs(imageSlimmingModel)
             saveUsedFilePrefix(imageSlimmingModel.filePrefix)
             val inputFiles: List<File> = readInputDirFiles(imageSlimmingModel.inputDir)
             val startTime = System.currentTimeMillis()
-            getEventProject(e)?.asyncTask(hintText = "正在压缩", runAction = {
+            getEventProject(event)?.asyncTask(hintText = "正在压缩", runAction = {
                 executeCompressPic(inputFiles, imageSlimmingModel)
             }, successAction = {
                 Messages.showWarningDialog("压缩完成, 已压缩: ${inputFiles.size}张图片, 压缩总时长共计: ${(System.currentTimeMillis() - startTime) / 1000}s", "来自ImageSlimming提示")
             }, failAction = {
-                println(it.message)
+                //由于之前并没有对文件中的API_KEY提前做有效性检验，所以此处需要捕获API_KEY认证的异常:
+                if (it.message?.contains("Bad authorization") == true || it.message?.contains("HTTP 400/Bad request") == true) {
+                    popupInputKeyDialog(labelTitle = "TinyPng key存在异常，请重新输入", event = event)
+                }
             })
         }
 
