@@ -7,30 +7,28 @@ import com.intellij.openapi.actionSystem.DataKeys
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.vfs.VirtualFile
 import com.mikyou.plugins.image.slimming.extension.showDialog
-import com.mikyou.plugins.image.slimming.helper.FileIOHelper
-import com.mikyou.plugins.image.slimming.helper.ImageSlimmingHelper
+import com.mikyou.plugins.image.slimming.helper.*
 import com.mikyou.plugins.image.slimming.ui.InputKeyDialog
 import java.io.File
 
 class RightSelectedAction : AnAction() {
-    private val mSlimmingHelper: ImageSlimmingHelper = ImageSlimmingHelper()
-    private val mIOHelper: FileIOHelper = FileIOHelper()
+ 
     //插件入口函数
     override fun actionPerformed(event: AnActionEvent?) {
         //检查本地存在ApiKey文件是否存在
-        mIOHelper.checkApiKeyFile(inexistAction = { labelTitle ->
+        checkApiKeyFile(inexistAction = { labelTitle ->
             popupInputKeyDialog(labelTitle = labelTitle, event = event)//不存在，提示用户输入
         }, existAction = { apiKey ->
             //存在直接设置ApiKey，并弹出压缩图片对话框
-            mSlimmingHelper.setTinyPngApiKey(apiKey)
+            setTinyPngApiKey(apiKey)
             executeSlimImage(event)
         })
     }
 
     private fun popupInputKeyDialog(labelTitle: String, event: AnActionEvent?) {
         InputKeyDialog(labelTitle, object : InputKeyDialog.DialogCallback {
-            override fun onOkBtnClicked(tinyPngKey: String) = mSlimmingHelper.checkApiKeyValid(project = getEventProject(event), apiKey = tinyPngKey, validAction = {
-                mIOHelper.updateExpireKey(apiKey = tinyPngKey)
+            override fun onOkBtnClicked(tinyPngKey: String) = checkApiKeyValid(project = getEventProject(event), apiKey = tinyPngKey, validAction = {
+                updateExpireKey(apiKey = tinyPngKey)
                 executeSlimImage(event)
             }, invalidAction = {
                 popupInputKeyDialog(labelTitle = it, event = event)
@@ -44,7 +42,7 @@ class RightSelectedAction : AnAction() {
 
     private fun executeSlimImage(event: AnActionEvent?) {
         val startTime = System.currentTimeMillis()
-        mSlimmingHelper.slimImage(project = getEventProject(event), inputFiles = getValidImageFiles(event?.dataContext?.getSelectedFiles()), outputSameFile = true, successAction = {
+        slimImage(project = getEventProject(event), inputFiles = getValidImageFiles(event?.dataContext?.getSelectedFiles()), outputSameFile = true, successAction = {
             Messages.showWarningDialog("压缩完成, 已压缩: ${getValidImageFiles(event?.dataContext?.getSelectedFiles()).size}张图片, 压缩总时长共计: ${(System.currentTimeMillis() - startTime) / 1000}s", "来自ImageSlimming提示")
         }, failAction = {
             popupInputKeyDialog(labelTitle = it, event = event)
