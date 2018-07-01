@@ -1,13 +1,14 @@
 <idea-plugin>
     <id>com.shanbay.plugins.image.slimming</id>
     <name>ImageSlimming</name>
-    <version>1.1</version>
+    <version>1.2</version>
     <vendor email="android@shanbay.com" url="http://www.shanbay.com">扇贝网</vendor>
 
     <description><![CDATA[
       <html>
         <p>Plugin for Image Compress, Support png and jpg, Develop by Kotlin and Using TinyApi lib. </p>
         <p>The Open Source Code Repository Url: <a href="https://github.com/BayMikyou/ImageSlimming">https://github.com/BayMikyou/ImageSlimming</a></p>
+        <p>The Plugin develop blog Url: <a href="https://juejin.im/post/5b3453fe6fb9a00e883f37fa">https://juejin.im/post/5b3453fe6fb9a00e883f37fa</a></p>
 
         <ul>
             <li>Support compress multiple images simultaneously</li>
@@ -37,6 +38,9 @@
     <b>1.1</b> (6/29/2018)
   <ul>
     <li>add support append output file prefix name</li>
+  </ul>
+  <b>1.2</b> (7/1/2018)
+  <ul>
     <li>update API KEY check code</li>
     <li>add support right clicked selected picture to compress</li>
   </ul>

@@ -1,8 +1,13 @@
 # ImageSlimming
 
+##使用导学
+
+![](art/9.gif)
+
 一、简述
 
 ImageSlimming是一个基于TinyPng API开发的图片压缩的IDEA工具插件，采用的是Kotlin语言开发以及Java Swing框架设计UI界面。可运行在AndroidStudio,Intellij IDEA,WebStorm等一系列的JetBrains全家桶中。
+现在大家可以在JetBrains Plugins Repository中搜索"ImageSlimming"就可以安装了。
 
 二、支持的功能
 
@@ -57,7 +62,6 @@ ImageSlimming是一个基于TinyPng API开发的图片压缩的IDEA工具插件�
 * 8、为了减少指定输入输出目录次数以及文件前缀的次数，会把每次用户使用过的目录给缓存起来，以及下次直接选择使用，也就是前面说的二次选择功能。
 
 ![](art/8.png)
-
 
 
 如此方便，赶快去下载试试吧，如果您觉得不错，欢迎给个star哦！
