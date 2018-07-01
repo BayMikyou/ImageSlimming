@@ -42,7 +42,7 @@
   <b>1.2</b> (7/1/2018)
   <ul>
     <li>update API KEY check code</li>
-    <li>add support right clicked selected picture to compress</li>
+    <li>Add select the IDE to go to the image file in any directory, right click and select "Quick Slim Images" to achieve image compression.</li>
   </ul>
 </html>
       ]]></change-notes>
