@@ -1,10 +1,15 @@
 # ImageSlimming
 
-一、简述
+## 使用导学
+
+![](art/9.gif)
+
+### 一、简述
 
 ImageSlimming是一个基于TinyPng API开发的图片压缩的IDEA工具插件，采用的是Kotlin语言开发以及Java Swing框架设计UI界面。可运行在AndroidStudio,Intellij IDEA,WebStorm等一系列的JetBrains全家桶中。
+现在大家可以在JetBrains Plugins Repository中搜索"ImageSlimming"就可以安装了。
 
-二、支持的功能
+### 二、支持的功能
 
 * 1、支持整个目录中的图片批量压缩，只需要指定图片源目录和压缩的输出目录即可
 * 2、支持单张或者选定多张图片文件进行压缩
@@ -12,9 +17,10 @@ ImageSlimming是一个基于TinyPng API开发的图片压缩的IDEA工具插件�
 * 4、支持输入目录和输出目录二次选择功能，减少繁琐指定相同的目录
 * 5、支持指定输入文件的前缀，也即是批量文件添加前缀名，以及前缀名二次选择功能
 * 6、图片压缩过程中，仍然继续coding, 工作并行执行
+* 7、支持在IDE中任意工作目录下选中一张或者多张png,jpg，右键选择"Quick Slim Images",即可实现图片压缩非常方便
 
 
-三、开发中用到的技术点
+### 三、开发中用到的技术点
 
 * 1、Intellij Idea 插件开发基础知识
 * 2、插件开发中如何执行一个后台线程任务Task.Backgroundable的使用
@@ -24,7 +30,11 @@ ImageSlimming是一个基于TinyPng API开发的图片压缩的IDEA工具插件�
 * 6、Java中Swing UI框架的基本使用
 * 7、TinyPng API基本使用
 
-四、使用步骤
+### 四、开发教程
+
+[用Kotlin撸一个图片压缩插件ImageSlimming系列文章](https://juejin.im/post/5b3453fe6fb9a00e883f37fa)
+
+### 四、使用步骤
 
 * 1、首先，按照Plugin通用安装方式，安装好对应的插件，可以直接在jetbrains仓库中搜索ImageSlimming,安装重启即可。
 重启后发现有如图插件，就说明安装成功。
@@ -57,7 +67,21 @@ ImageSlimming是一个基于TinyPng API开发的图片压缩的IDEA工具插件�
 
 ![](art/8.png)
 
+### 五、版本release note
 
+#### V1.0
+
+* 插件基本功能
+
+#### V1.1
+
+* 加入了指定文件前缀名功能
+
+#### V1.2
+
+* 加入选中IDE工作去任意目录下图片文件，右键选择"Quick Slim Images",即可实现图片压缩
+
+![](art/10.png)
 
 如此方便，赶快去下载试试吧，如果您觉得不错，欢迎给个star哦！
 
