@@ -58,6 +58,6 @@ class ImageSlimmingAction : AnAction() {
 
             }
 
-        }).showDialog(width = 530, height = 200, isInCenter = true, isResizable = false)
+        }).showDialog(width = 550, height = 200, isInCenter = true, isResizable = false)
     }
 }
