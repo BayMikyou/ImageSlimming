@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.shanbay.plugins.image.slimming</id>
     <name>ImageSlimming</name>
-    <version>1.2</version>
+    <version>1.3</version>
     <vendor email="android@shanbay.com" url="http://www.shanbay.com">扇贝网</vendor>
 
     <description><![CDATA[
@@ -43,6 +43,10 @@
   <ul>
     <li>update API KEY check code</li>
     <li>Add select the IDE to go to the image file in any directory, right click and select "Quick Slim Images" to achieve image compression.</li>
+  </ul>
+    <b>1.3</b> (8/3/2018)
+  <ul>
+    <li>Add File Rename Support</li>
   </ul>
 </html>
       ]]></change-notes>

@@ -22,6 +22,8 @@ public class ImageSlimmingDialog extends JDialog {
     private JCheckBox mCbShowPrefix;
     private JLabel mLabelPrefix;
     private JComboBox<String> mCBoxPrefix;
+    private JLabel mLabelRename;
+    private JTextField mTvRename;
 
 
     public ImageSlimmingDialog(Pair<List<String>, List<String>> usedDirs, List<String> filePrefixList, DialogCallback callback) {
@@ -30,10 +32,13 @@ public class ImageSlimmingDialog extends JDialog {
         getRootPane().setDefaultButton(buttonOK);
         mLabelPrefix.setVisible(false);
         mCBoxPrefix.setVisible(false);
-        mCBoxPrefix.setEditable(true);
+        mLabelRename.setVisible(false);
+        mTvRename.setVisible(false);
+
 
         mCBoxInputPath.setEditable(true);
         mCBoxOutputPath.setEditable(true);
+        mCBoxPrefix.setEditable(true);
 
         mCbShowPrefix.addItemListener(new ItemListener() {
             @Override
@@ -41,9 +46,13 @@ public class ImageSlimmingDialog extends JDialog {
                 if (mCbShowPrefix.isSelected()) {
                     mLabelPrefix.setVisible(true);
                     mCBoxPrefix.setVisible(true);
+                    mLabelRename.setVisible(true);
+                    mTvRename.setVisible(true);
                 } else {
                     mLabelPrefix.setVisible(false);
                     mCBoxPrefix.setVisible(false);
+                    mLabelRename.setVisible(false);
+                    mTvRename.setVisible(false);
                 }
             }
         });
@@ -158,7 +167,7 @@ public class ImageSlimmingDialog extends JDialog {
         }
 
         if (callback != null && mCBoxInputPath.getSelectedItem() != null && mCBoxOutputPath.getSelectedItem() != null) {
-            callback.onOkClicked(new ImageSlimmingModel(mCBoxInputPath.getSelectedItem().toString(), mCBoxOutputPath.getSelectedItem().toString(), filePrefix));
+            callback.onOkClicked(new ImageSlimmingModel(mCBoxInputPath.getSelectedItem().toString(), mCBoxOutputPath.getSelectedItem().toString(), filePrefix, mTvRename.getText()));
         }
         dispose();
     }
@@ -189,6 +198,6 @@ public class ImageSlimmingDialog extends JDialog {
 
             }
         });
-        ExtGUIDialogKt.showDialog(dialog, 530, 200, true, false);
+        ExtGUIDialogKt.showDialog(dialog, 580, 200, true, false);
     }
 }
