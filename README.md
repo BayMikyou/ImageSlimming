@@ -83,5 +83,11 @@ ImageSlimming是一个基于TinyPng API开发的图片压缩的IDEA工具插件�
 
 ![](art/10.png)
 
+#### V1.3
+
+* 加入支持图片rename操作
+
+![](art/11.png)
+
 如此方便，赶快去下载试试吧，如果您觉得不错，欢迎给个star哦！
 
